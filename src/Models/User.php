@@ -23,4 +23,9 @@ Class User extends Model
             'nickname' => $nickname,
         ]);
     }
+
+    public function verifyPassword(string $password, string $hash): bool
+    {
+        return password_verify($password, $hash);
+    }
 }

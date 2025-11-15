@@ -3,9 +3,9 @@
 namespace App\Config;
 
 class Config {
-    public static function get(string $key, $default = null) : string
+    public static function get(string $key, $default = null) : ?string
     {
-        return getenv($key) ?? $default;
+        return getenv($key) ?: $default;
     }
 
     public static function all() : array
@@ -23,7 +23,11 @@ class Config {
                 'database' => self::get('DB_DATABASE', 'shopwire'),
                 'username' => self::get('DB_USERNAME', 'shopwire_user'),
                 'password' => self::get('DB_PASSWORD', 'shopwire_password'),
-            ]
+            ],
+            'jwt' => [
+                'secret' => self::get('JWT_SECRET', 'your-secret-key-change-in-production'),
+                'expiration' => (int) self::get('JWT_EXPIRATION', 86400), // 24 hours
+            ],
         ];
     }
 }
