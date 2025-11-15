@@ -5,8 +5,15 @@ namespace App\Controllers;
 use App\Core\Controller;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
+use App\Models\User;
 
 Class AuthController extends Controller {
+
+    private User $userModel;
+    public function __construct()
+    {
+        $this->userModel = new User();
+    }
     public function register(Request $request, Response $response) : Response
     {
         $data = $request->getParsedBody() ?? [];
@@ -20,13 +27,27 @@ Class AuthController extends Controller {
             return $this->error($response, 'Validation failed', 422, $errors);
         }
 
-        $user = [
-            'email' => $data['email'],
-            'password' => password_hash($data['password'], PASSWORD_DEFAULT),
-            'nickname' => $data['nickname'],
-        ];
+        // Check if user already exists
+        $user = $this->userModel->findByEmail($data['email']);
+        if ($user) {
+            return $this->error($response, 'User already exists', 409);
+        }
 
-        return $this->success($response, $user, 'User registered successfully', 201);
+        try {
+            $user = $this->userModel->createUser(
+                $data['email'],
+                $data['password'],
+                $data['nickname']
+            );
+
+            return $this->success($response, [
+                'id' => $user,
+                'email' => $data['email'],
+                'nickname' => $data['nickname'],
+            ], 'User registered successfully', 201);
+        } catch (\Exception $e) {
+            return $this->error($response, 'Failed to register user', 500, $e->getMessage());
+        }
     }
 
     public function login(Request $request, Response $response) : Response
