@@ -3,11 +3,13 @@
 namespace App\Config;
 
 class Config {
-    public static function get(string $key, $default = null) {
+    public static function get(string $key, $default = null) : string
+    {
         return getenv($key) ?? $default;
     }
 
-    public static function all() {
+    public static function all() : array
+    {
         return [
             'app' => [
                 'name' => self::get('APP_NAME', 'ShopWire Raffle'),
