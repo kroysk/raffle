@@ -1,5 +1,6 @@
 <?php
 use App\Controllers\HealthController;
+use App\Controllers\AuthController;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
@@ -11,6 +12,12 @@ $app = AppFactory::create();
 $app->group('/health', function ($group) {
     $group->get('', [HealthController::class, 'health']);
     $group->get('/db', [HealthController::class, 'healthDb']);
+});
+
+// Auth routes (public)
+$app->group('/api/auth', function ($group) {
+    $group->post('/register', [AuthController::class, 'register']);
+    $group->post('/login', [AuthController::class, 'login']);
 });
 
 // 404 handler
