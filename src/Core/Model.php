@@ -15,6 +15,16 @@ abstract class Model {
         $this->db = Database::getConnection();
     }
 
+    public function find(int $id): ?array
+    {
+        $sql = "SELECT * FROM {$this->table} WHERE {$this->primaryKey} = :id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(":id", $id);
+        $stmt->execute();
+        $result = $stmt->fetch();
+        return $result ?: null;
+    }
+
     protected function findBy(string $column, string $value): ?array
     {
         $sql = "SELECT * FROM {$this->table} WHERE {$column} = :value";
@@ -23,6 +33,15 @@ abstract class Model {
         $stmt->execute();
         $result = $stmt->fetch();
         return $result ?: null;
+    }
+
+    public function all(): array
+    {
+        $sql = "SELECT * FROM {$this->table}";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+        return $result ?: [];
     }
 
     public function create(array $data): int

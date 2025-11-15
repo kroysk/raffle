@@ -77,4 +77,19 @@ Class AuthController extends Controller {
             'token' => $token,
         ], 'Login successful', 200);
     }
+
+    public function me(Request $request, Response $response) : Response
+    {
+        $userId = $request->getAttribute('user_id');
+
+        $user = $this->userModel->find($userId);
+
+        if (!$user) {
+            return $this->error($response, 'User not found', 404);
+        }
+
+        unset($user['password_hash']);
+
+        return $this->success($response, $user);
+    }
 }

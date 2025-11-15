@@ -1,6 +1,11 @@
 <?php
+// Controllers
 use App\Controllers\HealthController;
 use App\Controllers\AuthController;
+
+// Middleware
+use App\Middleware\AuthMiddleware;
+
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
@@ -18,6 +23,7 @@ $app->group('/health', function ($group) {
 $app->group('/api/auth', function ($group) {
     $group->post('/register', [AuthController::class, 'register']);
     $group->post('/login', [AuthController::class, 'login']);
+    $group->get('/me', [AuthController::class, 'me'])->add(new AuthMiddleware());
 });
 
 // 404 handler
