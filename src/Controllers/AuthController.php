@@ -17,7 +17,7 @@ Class AuthController extends Controller {
     }
     public function register(Request $request, Response $response) : Response
     {
-        $data = $request->getParsedBody() ?? [];
+        $data = json_decode($request->getBody(), true);
         $errors = $this->validate($data, [
             'email' => 'required|email',
             'password' => 'required|min:8',
@@ -55,6 +55,8 @@ Class AuthController extends Controller {
     public function login(Request $request, Response $response) : Response
     {
         $data = $request->getParsedBody() ?? [];
+        //get json body
+        $data = json_decode($request->getBody(), true) ?? [];
         $errors = $this->validate($data, [
             'email' => 'required|email',
             'password' => 'required',

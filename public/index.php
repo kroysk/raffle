@@ -19,6 +19,12 @@ $app->group('/health', function ($group) {
     $group->get('/db', [HealthController::class, 'healthDb']);
 });
 
+// Vue routes (public)
+$app->get('/', function (Request $request, Response $response) {
+    $response->getBody()->write(file_get_contents(__DIR__ . '/index.html'));
+    return $response;
+});
+
 // Auth routes (public)
 $app->group('/api/auth', function ($group) {
     $group->post('/register', [AuthController::class, 'register']);
