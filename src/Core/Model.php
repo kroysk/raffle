@@ -25,7 +25,7 @@ abstract class Model {
         return $result ?: null;
     }
 
-    protected function findBy(string $column, string $value): ?array
+    public function findBy(string $column, string $value): ?array
     {
         $sql = "SELECT * FROM {$this->table} WHERE {$column} = :value";
         $stmt = $this->db->prepare($sql);
@@ -88,9 +88,33 @@ abstract class Model {
         foreach ($params as $key => $value) {
             $stmt->bindValue(":{$key}", $value);
         }
-        
+
         $stmt->execute();
         $result = $stmt->fetchAll();
         return $result ?: [];
+    }
+
+    public function count(array $conditions): int
+    {
+        if (empty($conditions)) {
+            $stmt = $this->db->query("SELECT COUNT(*) as total FROM {$this->table}");
+            $result = $stmt->fetch();
+            return (int) $result['total'];
+        }
+        
+        $whereClauses = [];
+        $params = [];
+        
+        foreach ($conditions as $column => $value) {
+            $whereClauses[] = "{$column} = :{$column}";
+            $params[$column] = $value;
+        }
+        
+        $whereString = implode(' AND ', $whereClauses);
+        $stmt = $this->db->prepare("SELECT COUNT(*) as total FROM {$this->table} WHERE {$whereString}");
+        $stmt->execute($params);
+        
+        $result = $stmt->fetch();
+        return (int) $result['total'];
     }
 }

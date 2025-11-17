@@ -61,4 +61,9 @@ class ShopWireService
     {
         return $this->request('/products', 'POST', $data, $account);
     }
+
+    public function disableProduct(array $account, string $productId)
+    {
+        return $this->request('/products/' . $productId, 'PUT', ['active' => false], $account);
+    }
 }

@@ -1,4 +1,4 @@
-const API_URL = window.location.origin;
+export const API_URL = window.location.origin;
 export const apiCall = async (endpoint, method = 'GET', data = null) => {
     const options = {
         method,
