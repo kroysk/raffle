@@ -24,6 +24,7 @@
         @showRegister="showRegister"
         @showToast="showToast"
         @showShopWiredAccounts="showShopWiredAccounts"
+        @showCreateRaffleForm="showCreateRaffleForm"
         @setCurrentUser="setCurrentUser"
         @logout="logout"
     />
@@ -33,6 +34,9 @@
     />
     <ConnectAccountForm v-if="connectAccountFormView"
         @showShopWiredAccounts="showShopWiredAccounts"
+    />
+    <CreateRaffleForm v-if="createRaffleFormView"
+        @showDashboard="showDashboard"
     />
     <Toast v-if="toast.show" :message="toast.message" :type="toast.type" />
 </div>  

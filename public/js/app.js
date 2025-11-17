@@ -8,7 +8,7 @@ import Navbar from './components/Navbar/Navbar.js';
 import Toast from './components/Toast/Toast.js';
 import ShopWiredAccounts from './components/ShopWireAccounts/ShopWireAccounts.js';
 import ConnectAccountForm from './components/ShopWireAccounts/ConnectAccountForm/ConnectAccountForm.js';
-
+import CreateRaffleForm from './components/Raffles/CreateRaffleForm/CreateRaffleForm.js';
 const res = await fetch(new URL('app.html', import.meta.url));
 const html = await res.text();
 
@@ -23,6 +23,7 @@ export default {
         Navbar,
         ShopWiredAccounts,
         ConnectAccountForm,
+        CreateRaffleForm,
     },
     setup() {
         const loginView = ref(false);
@@ -32,6 +33,7 @@ export default {
         const landingView = ref(true);
         const shopWiredAccountsView = ref(false);
         const connectAccountFormView = ref(false);
+        const createRaffleFormView = ref(false);
         const toast = ref({
             message: '',
             type: '',
@@ -79,6 +81,7 @@ export default {
             landingView.value = false;
             shopWiredAccountsView.value = false;
             connectAccountFormView.value = false;
+            createRaffleFormView.value = false;
         }
         const showLanding = () => {
             hideAll();
@@ -116,7 +119,11 @@ export default {
             showNavbar();
             connectAccountFormView.value = true;
         }
-
+        const showCreateRaffleForm = () => {
+            hideAll();
+            showNavbar();
+            createRaffleFormView.value = true;
+        }
 
         // Mount Functions
         const verifyToken = async () => {
@@ -150,6 +157,7 @@ export default {
             landingView,
             shopWiredAccountsView,
             connectAccountFormView,
+            createRaffleFormView,
             toast,
             showToast,
             hideToast,
@@ -159,6 +167,7 @@ export default {
             showDashboard,
             showShopWiredAccounts,
             showConnectAccountForm,
+            showCreateRaffleForm,
             setCurrentUser,
             showNavbar,
             hideNavbar,
