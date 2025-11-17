@@ -3,6 +3,7 @@
 use App\Controllers\HealthController;
 use App\Controllers\AuthController;
 use App\Controllers\ShopWiredAccountController;
+use App\Controllers\RaffleController;
 // Middleware
 use App\Middleware\AuthMiddleware;
 
@@ -37,6 +38,12 @@ $app->group('/api/shopwired', function ($group) {
     $group->post('/accounts', [ShopWiredAccountController::class, 'create']);
     $group->get('/accounts', [ShopWiredAccountController::class, 'findAll']);
     $group->delete('/accounts/{id}', [ShopWiredAccountController::class, 'delete']);
+})->add(new AuthMiddleware());
+
+// Raffles routes
+$app->group('/api/raffles', function ($group) {
+    $group->post('', [RaffleController::class, 'create']);
+    $group->get('', [RaffleController::class, 'findAll']);
 })->add(new AuthMiddleware());
 
 // 404 handler

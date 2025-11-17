@@ -27,6 +27,7 @@
         @showCreateRaffleForm="showCreateRaffleForm"
         @setCurrentUser="setCurrentUser"
         @logout="logout"
+        @showRaffleDetails="showRaffleDetails"
     />
     <ShopWiredAccounts v-if="shopWiredAccountsView"
         @showDashboard="showDashboard"
@@ -36,6 +37,11 @@
         @showShopWiredAccounts="showShopWiredAccounts"
     />
     <CreateRaffleForm v-if="createRaffleFormView"
+        @showDashboard="showDashboard"
+        @showToast="showToast"
+    />
+    <RaffleDetails v-if="raffleDetailsView"
+        :raffleId="currentRaffleId"
         @showDashboard="showDashboard"
     />
     <Toast v-if="toast.show" :message="toast.message" :type="toast.type" />

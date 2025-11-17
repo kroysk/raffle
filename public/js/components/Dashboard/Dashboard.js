@@ -7,10 +7,14 @@ export default {
     components: {
         Raffles,
     },
-    emits: ['showShopWiredAccounts', 'showCreateRaffleForm'],
+    emits: ['showShopWiredAccounts', 'showCreateRaffleForm', 'showRaffleDetails'],
     setup(props, { emit }) {
+        const showRaffleDetails = (id) => {
+            emit('showRaffleDetails', id);
+        }
         return {
             emit,
+            showRaffleDetails,
         }
     }
 }

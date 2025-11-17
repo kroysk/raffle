@@ -9,6 +9,7 @@ import Toast from './components/Toast/Toast.js';
 import ShopWiredAccounts from './components/ShopWireAccounts/ShopWireAccounts.js';
 import ConnectAccountForm from './components/ShopWireAccounts/ConnectAccountForm/ConnectAccountForm.js';
 import CreateRaffleForm from './components/Raffles/CreateRaffleForm/CreateRaffleForm.js';
+import RaffleDetails from './components/Raffles/RaffleDetails/RaffleDetails.js';
 const res = await fetch(new URL('app.html', import.meta.url));
 const html = await res.text();
 
@@ -24,6 +25,7 @@ export default {
         ShopWiredAccounts,
         ConnectAccountForm,
         CreateRaffleForm,
+        RaffleDetails,
     },
     setup() {
         const loginView = ref(false);
@@ -34,6 +36,8 @@ export default {
         const shopWiredAccountsView = ref(false);
         const connectAccountFormView = ref(false);
         const createRaffleFormView = ref(false);
+        const raffleDetailsView = ref(false);
+        const currentRaffleId = ref(null);
         const toast = ref({
             message: '',
             type: '',
@@ -82,6 +86,7 @@ export default {
             shopWiredAccountsView.value = false;
             connectAccountFormView.value = false;
             createRaffleFormView.value = false;
+            raffleDetailsView.value = false;
         }
         const showLanding = () => {
             hideAll();
@@ -124,7 +129,12 @@ export default {
             showNavbar();
             createRaffleFormView.value = true;
         }
-
+        const showRaffleDetails = (id) => {
+            hideAll();
+            showNavbar();
+            currentRaffleId.value = id;
+            raffleDetailsView.value = true;
+        }
         // Mount Functions
         const verifyToken = async () => {
             try {
@@ -158,6 +168,8 @@ export default {
             shopWiredAccountsView,
             connectAccountFormView,
             createRaffleFormView,
+            raffleDetailsView,
+            currentRaffleId,
             toast,
             showToast,
             hideToast,
@@ -168,6 +180,7 @@ export default {
             showShopWiredAccounts,
             showConnectAccountForm,
             showCreateRaffleForm,
+            showRaffleDetails,
             setCurrentUser,
             showNavbar,
             hideNavbar,

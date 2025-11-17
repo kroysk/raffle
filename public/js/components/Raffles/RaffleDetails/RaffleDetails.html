@@ -1,0 +1,63 @@
+<!-- Raffle Details -->
+<div id="raffle-details" class="fade-in">
+    <div class="mb-6">
+        <button @click="emit('showDashboard')" class="text-purple-600 hover:text-purple-700 mb-4">
+            <i class="fas fa-arrow-left mr-2"></i>Back to Dashboard
+        </button>
+    </div>
+
+    <div id="raffleDetailsContent">
+        <div class="bg-white rounded-lg shadow-xl p-8 mb-6">
+            <div class="flex items-start justify-between mb-6">
+                <div class="flex items-start gap-2">
+                    <h1 class="text-4xl font-bold text-gray-800 mb-2">{{ raffle.title }}</h1>
+                    <span class="px-4 py-2 rounded-full text-sm font-semibold" :class="getStatusClass(raffle.status)">
+                        {{ raffle.status }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div class="bg-purple-50 rounded-lg p-4">
+                    <p class="text-purple-600 text-sm font-semibold mb-1">Total Entries</p>
+                    <p class="text-3xl font-bold text-purple-700">{{ raffle.total_entries }}</p>
+                </div>
+                <div class="bg-yellow-50 rounded-lg p-4">
+                    <p class="text-yellow-600 text-sm font-semibold mb-1">Maximum Entries</p>
+                    <p class="text-3xl font-bold text-yellow-700">{{ raffle.max_entries }}</p>
+                </div>
+            </div>
+        </div>
+        <div v-if="entries.length === 0" class="text-center py-12 text-gray-500">
+            <i class="fas fa-users text-6xl mb-4"></i>
+            <p class="text-xl">No entries yet</p>
+        </div>
+
+        <div v-if="entries.length > 0">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">
+                <i class="fas fa-users mr-2"></i>Entries
+            </h2>
+
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="border-b-2 border-gray-200">
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Rafle Number</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Customer Name</th>
+                            <th class="text-center py-3 px-4 font-semibold text-gray-700">Customer Address</th>
+                            <th class="text-center py-3 px-4 font-semibold text-gray-700">Customer Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="entry in entries" :key="entry.id" class="border-b border-gray-100 hover:bg-gray-50">
+                            <td class="py-3 px-4">{{ entry.raffle_number }}</td>
+                            <td class="py-3 px-4">{{ entry.customer_name || 'N/A' }}</td>
+                            <td class="py-3 px-4 text-center">{{ entry.customer_address || 'N/A' }}</td>
+                            <td class="py-3 px-4 text-center">{{ entry.customer_email || 'N/A' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
