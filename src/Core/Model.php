@@ -63,4 +63,10 @@ abstract class Model {
         $result = $stmt->fetch();
         return (int) $result[$this->primaryKey];
     }
+
+    public function delete(int $id): bool
+    {
+        $stmt = $this->db->prepare("DELETE FROM {$this->table} WHERE {$this->primaryKey} = :id");
+        return $stmt->execute(['id' => $id]);
+    }
 }

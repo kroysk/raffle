@@ -21,7 +21,7 @@ export default {
                     const authToken = result.data.token;
                     localStorage.setItem('authToken', authToken);
                     emit('setCurrentUser', result.data);
-                    emit('showToast', {'message': 'Inicio de sesión exitoso', 'type': 'success'});
+                    emit('showToast', {'message': 'Login successful', 'type': 'success'});
                     emit('showDashboard');
                 }
             } catch (error) {

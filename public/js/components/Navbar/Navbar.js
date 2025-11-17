@@ -3,9 +3,16 @@ const html = await res.text();
 
 export default {
     template: html,
-    setup() {
+    props: {
+        nickname: {
+            type: String,
+            required: true
+        }
+    },
+    emits: ['logout'],
+    setup(props, { emit }) {
         return {
-            message: 'Hello World'
+            emit,
         }   
     }
 }

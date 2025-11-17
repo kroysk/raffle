@@ -1,7 +1,38 @@
+<Navbar v-if="navbarView" :nickname="nickname" @logout="logout" />
 <div class="container mx-auto px-4 py-8">
-    <Landing v-if="landingView" @showLogin="showLogin" @showRegister="showRegister" />
-    <Login v-if="loginView" @showRegister="showRegister" @showLanding="showLanding" @showToast="showToast" @showDashboard="showDashboard" @setCurrentUser="setCurrentUser"/>
-    <Register v-if="registerView" @showLogin="showLogin" @showLanding="showLanding" @showToast="showToast" @setCurrentUser="setCurrentUser" @showDashboard="showDashboard" />
-    <Dashboard v-if="dashboardView" @showLanding="showLanding" @showLogin="showLogin" @showRegister="showRegister" @showToast="showToast" />
+    <Landing v-if="landingView"
+        @showLogin="showLogin"
+        @showRegister="showRegister" 
+    />
+    <Login v-if="loginView"
+        @showRegister="showRegister"
+        @showLanding="showLanding"
+        @showToast="showToast"
+        @showDashboard="showDashboard"
+        @setCurrentUser="setCurrentUser"
+    />
+    <Register v-if="registerView"
+        @showLogin="showLogin"
+        @showLanding="showLanding"
+        @showToast="showToast"
+        @setCurrentUser="setCurrentUser"
+        @showDashboard="showDashboard"
+    />
+    <Dashboard v-if="dashboardView" 
+        @showLanding="showLanding"
+        @showLogin="showLogin"
+        @showRegister="showRegister"
+        @showToast="showToast"
+        @showShopWiredAccounts="showShopWiredAccounts"
+        @setCurrentUser="setCurrentUser"
+        @logout="logout"
+    />
+    <ShopWiredAccounts v-if="shopWiredAccountsView"
+        @showDashboard="showDashboard"
+        @showConnectAccountForm="showConnectAccountForm"
+    />
+    <ConnectAccountForm v-if="connectAccountFormView"
+        @showShopWiredAccounts="showShopWiredAccounts"
+    />
     <Toast v-if="toast.show" :message="toast.message" :type="toast.type" />
-</div>
+</div>  

@@ -4,8 +4,10 @@ import Landing from './components/Landing/Landing.js';
 import Login from './components/Login/Login.js';
 import Register from './components/Register/Register.js';
 import Dashboard from './components/Dashboard/Dashboard.js';
-// import Navbar from './components/Navbar/Navbar.js';
+import Navbar from './components/Navbar/Navbar.js';
 import Toast from './components/Toast/Toast.js';
+import ShopWiredAccounts from './components/ShopWireAccounts/ShopWireAccounts.js';
+import ConnectAccountForm from './components/ShopWireAccounts/ConnectAccountForm/ConnectAccountForm.js';
 
 const res = await fetch(new URL('app.html', import.meta.url));
 const html = await res.text();
@@ -18,7 +20,9 @@ export default {
         Register,
         Toast,
         Dashboard,
-        // Navbar,
+        Navbar,
+        ShopWiredAccounts,
+        ConnectAccountForm,
     },
     setup() {
         const loginView = ref(false);
@@ -26,7 +30,8 @@ export default {
         const dashboardView = ref(false);
         const navbarView = ref(false);
         const landingView = ref(true);
-
+        const shopWiredAccountsView = ref(false);
+        const connectAccountFormView = ref(false);
         const toast = ref({
             message: '',
             type: '',
@@ -34,8 +39,7 @@ export default {
         });
 
 
-        function showToast(data){
-            console.log('showToast', data);
+        const showToast = (data) => {
             toast.value = {
                 message: data.message,
                 type: data.type,
@@ -45,7 +49,7 @@ export default {
                 hideToast();
             }, 3000);
         }
-        function hideToast(){
+        const hideToast = () => {
             toast.value = {
                 message: '',
                 type: '',
@@ -54,51 +58,73 @@ export default {
         }
 
         const currentUser = ref(null)
-        function setCurrentUser(user){
+        const nickname = ref('');
+        const setCurrentUser = (user) => {
             currentUser.value = user;
+            nickname.value = user.nickname;
+        }
+        const logout = () => {
+            localStorage.removeItem('authToken');
+            currentUser.value = null;
+            nickname.value = '';
+            showToast({ message: 'Session closed successfully', type: 'success' });
+            showLanding();
         }
         // Navigation Funtions
-        function hideAll(){
+        const hideAll = () => {
             loginView.value = false;
             registerView.value = false;
             dashboardView.value = false;
             navbarView.value = false;
             landingView.value = false;
+            shopWiredAccountsView.value = false;
+            connectAccountFormView.value = false;
         }
-        function showLanding(){
+        const showLanding = () => {
             hideAll();
             hideNavbar();
             landingView.value = true;
         }
-        function showLogin(){
+        const showLogin = () => {
             hideAll();
             hideNavbar();
             loginView.value = true;
         }
-        function showRegister(){
-            console.log('showRegister');
+        const showRegister = () => {
             hideAll();
             hideNavbar();
             registerView.value = true;
         }
-        function showDashboard(){
+        const showDashboard = () => {
             hideAll();
-            hideNavbar();
+            showNavbar();
             dashboardView.value = true;
         }
-        function showNavbar(){
+        const showNavbar = () => {
             navbarView.value = true;
         }
-        function hideNavbar(){
+        const hideNavbar = () => {
             navbarView.value = false;
         }
+        const showShopWiredAccounts = () => {
+            hideAll();
+            showNavbar();
+            shopWiredAccountsView.value = true;
+        }
+        const showConnectAccountForm = () => {
+            hideAll();
+            showNavbar();
+            connectAccountFormView.value = true;
+        }
+
+
         // Mount Functions
         const verifyToken = async () => {
             try {
                 const result = await apiCall('/api/auth/me');
-                
+
                 if (result.success) {
-                    currentUser.value = result.data;
+                    setCurrentUser(result.data);
                     // document.getElementById('userName').textContent = `Hola, ${result.data.name}`;
                     showDashboard();
                 }
@@ -122,6 +148,8 @@ export default {
             dashboardView,
             navbarView,
             landingView,
+            shopWiredAccountsView,
+            connectAccountFormView,
             toast,
             showToast,
             hideToast,
@@ -129,9 +157,13 @@ export default {
             showLogin,
             showRegister,
             showDashboard,
+            showShopWiredAccounts,
+            showConnectAccountForm,
             setCurrentUser,
             showNavbar,
             hideNavbar,
+            nickname,
+            logout,
         }
     }
 }

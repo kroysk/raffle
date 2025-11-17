@@ -24,7 +24,7 @@ export default {
                     const authToken = result.data.token;
                     localStorage.setItem('authToken', authToken);
                     
-                    emit('showToast', {'message': 'Cuenta creada exitosamente', 'type': 'success'});
+                    emit('showToast', {'message': 'Account created successfully', 'type': 'success'});
                     
                     // Load user info
                     const userInfo = await apiCall('/api/auth/me');

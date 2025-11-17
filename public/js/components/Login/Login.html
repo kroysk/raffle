@@ -3,7 +3,7 @@
     <div class="bg-white rounded-lg shadow-xl p-8">
         <div class="text-center mb-8">
             <i class="fas fa-gift text-5xl text-purple-600 mb-4"></i>
-            <h2 class="text-3xl font-bold text-gray-800">Iniciar Sesión</h2>
+            <h2 class="text-3xl font-bold text-gray-800">Login</h2>
         </div>
         <form @submit.prevent="login()">
             <div class="mb-4">
@@ -16,7 +16,7 @@
             </div>
             <div class="mb-6">
                 <label class="block text-gray-700 text-sm font-bold mb-2">
-                    <i class="fas fa-lock mr-2"></i>Contraseña
+                    <i class="fas fa-lock mr-2"></i>Password
                 </label>
                 <input type="password" id="loginPassword" required
                     v-model="loginForm.password"
@@ -24,16 +24,16 @@
             </div>
             <button type="submit"
                 class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-lg transition">
-                Iniciar Sesión
+                Login
             </button>
         </form>
         <div class="text-center mt-6">
             <button @click="emit('showRegister')" class="text-purple-600 hover:text-purple-700">
-                ¿No tienes cuenta? Regístrate
+                Don't have an account? Register
             </button>
             <br>
             <button @click="emit('showLanding')" class="text-gray-500 hover:text-gray-700 mt-2">
-                <i class="fas fa-arrow-left mr-2"></i>Volver
+                <i class="fas fa-arrow-left mr-2"></i>Back
             </button>
         </div>
     </div>

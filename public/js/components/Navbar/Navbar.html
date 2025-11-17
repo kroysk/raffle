@@ -1,0 +1,18 @@
+<!-- Navbar -->
+<nav id="navbar" class="gradient-bg text-white shadow-lg">
+    <div class="container mx-auto px-6 py-4">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <i class="fas fa-gift text-2xl"></i>
+                <span class="text-xl font-bold">ShopWire Raffle</span>
+            </div>
+            <div class="flex items-center space-x-6">
+                <span id="userName" class="text-sm">{{ nickname }}</span>
+                <button @click="emit('logout')"
+                    class="bg-white bg-opacity-20 hover:bg-opacity-30 px-4 py-2 rounded-lg transition">
+                    <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                </button>
+            </div>
+        </div>
+    </div>
+</nav>

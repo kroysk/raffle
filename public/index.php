@@ -2,7 +2,7 @@
 // Controllers
 use App\Controllers\HealthController;
 use App\Controllers\AuthController;
-
+use App\Controllers\ShopWiredAccountController;
 // Middleware
 use App\Middleware\AuthMiddleware;
 
@@ -31,6 +31,13 @@ $app->group('/api/auth', function ($group) {
     $group->post('/login', [AuthController::class, 'login']);
     $group->get('/me', [AuthController::class, 'me'])->add(new AuthMiddleware());
 });
+
+// ShopWired routes
+$app->group('/api/shopwired', function ($group) {
+    $group->post('/accounts', [ShopWiredAccountController::class, 'create']);
+    $group->get('/accounts', [ShopWiredAccountController::class, 'findAll']);
+    $group->delete('/accounts/{id}', [ShopWiredAccountController::class, 'delete']);
+})->add(new AuthMiddleware());
 
 // 404 handler
 $app->map(['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], '/{routes:.+}', function (Request $request, Response $response) {

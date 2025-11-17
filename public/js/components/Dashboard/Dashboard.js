@@ -3,9 +3,10 @@ const html = await res.text();
 
 export default {
     template: html,
-    setup() {
+    emits: ['showShopWiredAccounts'],
+    setup(props, { emit }) {
         return {
-            message: 'Dashboard'
+            emit,
         }
     }
 }
