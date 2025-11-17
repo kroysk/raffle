@@ -18,4 +18,9 @@ Class ShopWiredAccount extends Model
             'shopwired_webhooks_secret' => $shopWiredWebhooksSecret,
         ]);
     }
+
+    public function findAllByUserId(string $userId): array
+    {
+        return $this->where(['user_id' => $userId]);
+    }
 }

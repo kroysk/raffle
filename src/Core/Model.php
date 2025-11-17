@@ -69,4 +69,28 @@ abstract class Model {
         $stmt = $this->db->prepare("DELETE FROM {$this->table} WHERE {$this->primaryKey} = :id");
         return $stmt->execute(['id' => $id]);
     }
+
+    public function where(array $conditions): array
+    {
+        $whereClauses = [];
+        $params = [];
+
+        foreach ($conditions as $column => $value) {
+            $whereClauses[] = "{$column} = :{$column}";
+            $params[$column] = $value;
+        }
+
+        $whereString = implode(' AND ', $whereClauses);
+        $sql = "SELECT * FROM {$this->table} WHERE {$whereString}";
+
+        $stmt = $this->db->prepare($sql);
+
+        foreach ($params as $key => $value) {
+            $stmt->bindValue(":{$key}", $value);
+        }
+        
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+        return $result ?: [];
+    }
 }

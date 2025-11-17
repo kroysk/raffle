@@ -42,7 +42,7 @@ Class ShopWiredAccountController extends Controller {
     public function findAll(Request $request, Response $response) : Response
     {
         $userId = $request->getAttribute('user_id');
-        $shopWiredAccounts = $this->shopWiredAccountModel->all();
+        $shopWiredAccounts = $this->shopWiredAccountModel->findAllByUserId($userId);
         return $this->success($response, $shopWiredAccounts);
     }
     
