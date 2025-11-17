@@ -28,6 +28,9 @@ class Config {
                 'secret' => self::get('JWT_SECRET', 'your-secret-key-change-in-production'),
                 'expiration' => (int) self::get('JWT_EXPIRATION', 86400), // 24 hours
             ],
+            'shopwired' => [
+                'api_url' => self::get('SHOPWIRED_API_URL', 'https://api.ecommerceapi.uk/v1'),
+            ]
         ];
     }
 }

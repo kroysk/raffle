@@ -9,7 +9,7 @@ Class Raffle extends Model
     protected string $table = 'raffles';
     public const STATUS_COMPLETED = 'completed';
     public const STATUS_ACTIVE = 'active';
-    public function createRaffle(string $userId, string $accountId, string $title, int $maxEntries): int
+    public function createRaffle(string $userId, string $accountId, string $title, int $maxEntries, string $productId): int
     {
         return $this->create([
             'user_id' => $userId,
@@ -17,6 +17,7 @@ Class Raffle extends Model
             'title' => $title,
             'max_entries' => $maxEntries,
             'status' => self::STATUS_ACTIVE,
+            'product_id' => $productId,
         ]);
     }
 
