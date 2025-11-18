@@ -34,8 +34,22 @@ Class RaffleEntryController extends Controller {
     {
         $data = json_decode($request->getBody(), true);
         // @TODO: Get the proper body from the webhook
+        $data = $data['event']['data']['object'];
+        $productId = $data['products'][0]['id'];
+        $productQuantity = $data['products'][0]['quantity'];
+        $customerName = $data['billingAddress']['name'];
+        $email = $data['billingAddress']['emailAddress'];
+        $address = $data['billingAddress']['addressLine1'].$data['billingAddress']['addressLine2'].$data['billingAddress']['addressLine3'];
 
-        $raffle = $this->raffleModel->findBy('product_id', $data['product_id']);
+        $data = [
+            'name' => $customerName,
+            'email' => $email,
+            'address' => $address,
+            'quantity' => $productQuantity,
+        ];
+
+        // return $this->success($response, $data);
+        $raffle = $this->raffleModel->findBy('product_id', $productId);
 
         // @TODO: Validate signature from webhook with the shopwired account
 
