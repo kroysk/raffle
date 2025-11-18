@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Psr\Http\Message\ServerRequestInterface as Request;
+
 use App\Core\Model;
 
 Class ShopWiredAccount extends Model
@@ -22,5 +24,18 @@ Class ShopWiredAccount extends Model
     public function findAllByUserId(string $userId): array
     {
         return $this->where(['user_id' => $userId]);
+    }
+
+    public function verifyWebhookRequest(Request $request): bool
+    {
+        $body = $request->getBody()->getContents();
+        $accountId = $request->getAttribute('accountId');
+        $signature = $request->getHeaderLine('X-ShopWired-Signature');
+        if (!$body || !$signature) {
+            return false;
+        }
+        $shopWiredWebhooksSecret = $this->find($accountId)['shopwired_webhooks_secret'];
+        $expected_signature = hash_hmac('sha256', $body, $shopWiredWebhooksSecret);
+        return hash_equals($signature, $expected_signature);
     }
 }

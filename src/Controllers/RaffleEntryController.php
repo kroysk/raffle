@@ -32,8 +32,25 @@ Class RaffleEntryController extends Controller {
 
     public function webhook(Request $request, Response $response) : Response
     {
+        $shopWiredAccountModel = new ShopWiredAccount();
+        $accountId = $request->getAttribute('accountId');
+        $shopWiredAccount = $shopWiredAccountModel->find($accountId);
+        if (!$shopWiredAccount) {
+            return $this->error($response, 'Account not Found', 404);
+        }
+        if (!$shopWiredAccountModel->verifyWebhookRequest($request)) {
+            return $this->error($response, 'Invalid Signature', 401);
+        }
+       
+        
         $data = json_decode($request->getBody(), true);
-        // @TODO: Get the proper body from the webhook
+
+        if (!empty($data) && !empty($data['verificationToken'])) {
+            $signed_verification_token = hash_hmac('sha256', $data['verificationToken'], $shopWiredAccount['shopwired_webhooks_secret']);
+            $response->getBody()->write($signed_verification_token);
+            return $response->withStatus(200);
+        }
+        
         $data = $data['event']['data']['object'];
         $productId = $data['products'][0]['id'];
         $productQuantity = $data['products'][0]['quantity'];
@@ -57,9 +74,7 @@ Class RaffleEntryController extends Controller {
 
         if ($this->raffleModel->shouldClose($raffle['id'])) {
             $shopWireService = new ShopWireService();
-            $shopWiredAccountModel = new ShopWiredAccount();
             try {
-                $shopWiredAccount = $shopWiredAccountModel->find($raffle['shopwired_account_id']);
                 $shopWireService->disableProduct($shopWiredAccount, $raffle['product_id']);
             } catch (\Exception $e) {
                 return $this->error($response, 'Failed to disable product', 500, $e->getMessage());

@@ -50,7 +50,7 @@ $app->group('/api/raffles', function ($group) {
     $group->get('/{id}/entries/export', [RaffleEntryController::class, 'exportCsv']);
 })->add(new AuthMiddleware());
 
-$app->post('/api/raffles/webhook', [RaffleEntryController::class, 'webhook']);
+$app->post('/api/raffles/webhook/{accountId}', [RaffleEntryController::class, 'webhook']);
 
 // 404 handler
 $app->map(['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], '/{routes:.+}', function (Request $request, Response $response) {
